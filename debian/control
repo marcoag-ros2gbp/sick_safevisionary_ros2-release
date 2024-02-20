@@ -1,0 +1,12 @@
+Source: ros-rolling-sick-safevisionary-tests
+Section: misc
+Priority: optional
+Maintainer: Marvin Grosse Besselmann <grosse@fzi.de>
+Build-Depends: debhelper (>= 9.0.0), ros-rolling-ament-cmake, ros-rolling-launch <!nocheck>, ros-rolling-launch-ros <!nocheck>, ros-rolling-launch-testing-ament-cmake <!nocheck>, ros-rolling-sick-safevisionary-driver <!nocheck>, ros-rolling-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-sick-safevisionary-tests
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-rolling-ros-workspace
+Description: Integration tests for the Sick SafeVisionary2 driver
