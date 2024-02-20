@@ -1,0 +1,12 @@
+Source: ros-rolling-sick-safevisionary-interfaces
+Section: misc
+Priority: optional
+Maintainer: Marvin Grosse Besselmann <grosse@fzi.de>
+Build-Depends: debhelper (>= 9.0.0), ros-rolling-ament-cmake, ros-rolling-ament-lint-auto <!nocheck>, ros-rolling-ament-lint-common <!nocheck>, ros-rolling-rosidl-default-generators, ros-rolling-std-msgs, ros-rolling-ros-workspace, ros-rolling-rosidl-typesupport-fastrtps-c, ros-rolling-rosidl-typesupport-fastrtps-cpp
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-sick-safevisionary-interfaces
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-rolling-rosidl-default-runtime, ros-rolling-std-msgs, ros-rolling-ros-workspace
+Description: Provides interface descriptions to communicate with a SICK Safevisionary Sensor over ROS 2

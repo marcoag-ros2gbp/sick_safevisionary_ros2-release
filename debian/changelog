@@ -1,0 +1,24 @@
+ros-rolling-sick-safevisionary-interfaces (1.0.3-2noble) noble; urgency=high
+
+
+
+ -- Marvin Grosse Besselmann <grosse@fzi.de>  Sat, 25 Nov 2023 00:00:00 -0000
+
+ros-rolling-sick-safevisionary-interfaces (1.0.2-2noble) noble; urgency=high
+
+
+
+ -- Marvin Grosse Besselmann <grosse@fzi.de>  Thu, 23 Nov 2023 00:00:00 -0000
+
+ros-rolling-sick-safevisionary-interfaces (1.0.1-2noble) noble; urgency=high
+
+  * Update maintainer tags
+  * Add a minimal readme for the interfaces package
+  * Added license and maintainer infos
+  * added header to custom msgs
+  * Added interfaces for internal sensor data
+  * Contributors: Marvin Große Besselmann, Stefan Scherzinger
+
+ -- Marvin Grosse Besselmann <grosse@fzi.de>  Wed, 22 Nov 2023 00:00:00 -0000
+
+
