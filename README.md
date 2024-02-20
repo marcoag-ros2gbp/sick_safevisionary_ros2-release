@@ -1,60 +1,33 @@
-<div align="center">
-  <img src="resources/images/safevisionary2.png" alt="Sick safeVisionary2" style="width: 30%;"/>
-  <h1 align="center">Sick Safevisionary ROS2</h1>
-</div>
+# Sick Safevisionary Driver
 
-<p align="center">
-  <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache_2.0-yellow.svg" alt="License">
-  </a>
-  <a href="https://github.com/SICKAG/sick_safevisionary_ros2/actions">
-    <img src="https://github.com/SICKAG/sick_safevisionary_ros2/actions/workflows/industrial_ci_humble_action.yml/badge.svg" alt="build badge">
-  </a>
-  <a href="https://github.com/SICKAG/sick_safevisionary_ros2/actions">
-    <img src="https://github.com/SICKAG/sick_safevisionary_ros2/actions/workflows/industrial_ci_iron_action.yml/badge.svg" alt="build badge">
-  </a>
-  <a href="https://github.com/SICKAG/sick_safevisionary_ros2/actions">
-    <img src="https://github.com/SICKAG/sick_safevisionary_ros2/actions/workflows/industrial_ci_rolling_action.yml/badge.svg" alt="build badge">
-  </a>
-</p>
+This is the official ROS2 driver for the Sick *safeVisionary2* cameras.
+See the [top-level readme](./../README.md) for getting started.
 
 
-This is the official ROS2 driver for the [Sick safeVisionary2](https://www.sick.com/de/en/safety-camera-sensors/safety-camera-sensors/safevisionary2/c/g568562) cameras.
+## Lifecycle states
+This driver implements a thin ROS2 wrapper around the [sick_safevisionary_base](https://github.com/SICKAG/sick_safevisionary_base) library in form of a *lifecycle node*.
+In contrast to conventional ROS2 nodes, lifecycle nodes give us more control about the
+driver's individual states. This is handy e.g. when performing a clean reset at runtime.
+You'll find more information on the individual states and state transitions [in this design article](https://design.ros2.org/articles/node_lifecycle.html).
 
-## System dependencies
-We use *Boost*'s [lock-free](https://www.boost.org/doc/libs/1_82_0/doc/html/lockfree.html) data structures in this driver.
-You can install them with
-```bash
-sudo apt-get install libboost-all-dev
-```
+This driver's behavior is roughly as follows:
 
-## Build and install
-Switch to the `src` folder of your current ROS2 workspace and
-```bash
-git clone https://github.com/SICKAG/sick_safevisionary_ros2.git
-git clone https://github.com/SICKAG/sick_safevisionary_base.git
-rosdep install --from-paths ./ --ignore-src -y
-cd ..
-colcon build --packages-select sick_safevisionary_base sick_safevisionary_interfaces sick_safevisionary_driver  --cmake-args -DCMAKE_BUILD_TYPE=Release
-```
+| State    | Behavior |
+| -------- | ------- |
+| Unconfigured  | No topics are advertised and previously advertised topics are removed.|
+| Inactive | The driver establishes a UDP data connection to the camera and processes sensor data without publishing. |
+| Active    | The driver continuously publishes all camera data with a consistent time stamp across all topics. |
+| Finalized    | The driver has been shutdown and all resources have been cleaned up. All previously advertised topics are removed. |
 
-## Getting started
-Each camera must be configured once. The setup is explained [here](https://github.com/SICKAG/sick_safevisionary_base/blob/main/resources/doc/safety_designer.md).
-In a sourced terminal, start the driver with
-```bash
-ros2 launch sick_safevisionary_driver driver_node.launch.py
-```
+## Managing the lifecycle
+ROS2 has a command line interface to trigger state transitions.
+Here are the commands to get the */sick_safevisionary* node through its primary states:
 
-You can list the relevant topics with
-```bash
-ros2 topic list | grep sick_safevisionary
-```
-
-This driver implements a *lifecycle node* which automatically transitions into the active state on bootup.
-The state can also be manually changed for example from an unconfigured state to an active, publishing state using two additional steps on the command line.
-Open another sourced terminal and call
 ```bash
 ros2 lifecycle set /sick_safevisionary configure
 ros2 lifecycle set /sick_safevisionary activate
+ros2 lifecycle set /sick_safevisionary deactivate
+ros2 lifecycle set /sick_safevisionary shutdown
 ```
-Here's [more information](./sick_safevisionary_driver/README.md) about driver's lifecycle behavior.
+
+Also see this [example](../sick_safevisionary_tests/integration_tests/integration_tests.py) from the integration tests how to do that in Python.
